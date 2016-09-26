@@ -50,6 +50,7 @@ form {
     padding: 20px;
     padding-left: 0;
     margin-bottom: 20px;
+    border: 2px dotted #999;
 }
 
 form input[type=text] {
