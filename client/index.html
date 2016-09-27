@@ -25,9 +25,17 @@
       <!-- Your HTML goes here! -->
       <h1>chatterbox</h1>
         <input text="text" class = "chatSubmit" />
+        <select id="roomSelect">
+        <option value="0">Select room...</option>
+        <option value="1">Add room...</option>
+        </select>
         <button class="newMessageButton"> Send </button>
-        <ul class = "messages"></ul>
-<!--       <button>Fetch</button> -->
+        <button class="clearButton"> Clear </button>
+        <div class="newRoom" style = "display: none;">
+          <input text="text" class = "newRoomName" />
+          <button class="addRoom"> Add a New Room! </button>
+        </div>
+        <ul id = "chats"></ul>
     </div>
     
     <!-- your scripts -->
