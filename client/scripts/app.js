@@ -27,6 +27,8 @@
     });
   };
 
+  var objectId;
+
   app.server = 'https://api.parse.com/1/classes/messages?order=updatedAt';
   app.fetch = function() {
     // console.log('triggered a fetch');
@@ -38,8 +40,11 @@
       contentType: 'application/json',
       success: function (data) {
         var messages = data.results;
-        console.log('success condition for fetch: ', messages);
-        displayAll(messages);
+        if (messages[0].objectId !== objectId) {
+          objectId = messages[0].objectId;
+          debugger;
+          displayAll(messages);
+        }
       },
       error: function () {
         // See: https://developer.mozilla.org/en-US/docs/Web/API/console.error
@@ -54,7 +59,8 @@
   };
 
   var displayAll = function(messages) {
-    for (var i = 0; i < messages.length; i++) {
+    for (var i = messages.length - 1; i >= 0; i--) {
+      console.log(messages[i]); 
       app.renderMessage(messages[i]);
     }
   };
@@ -80,7 +86,7 @@
   app.renderMessage = function(msgObj) {
     var $newMessage = $('<li></li>');
     $newMessage.text(msgObj.username + ': ' + msgObj.text);
-    $('#chats').append($newMessage);
+    $('#chats').prepend($newMessage);
   };
 
   $('.newMessageButton').on('click', function() {
@@ -90,6 +96,7 @@
     messageObj.roomname = $('#roomSelect option:selected').text();
     console.log('sent a message!');
     app.send(messageObj);
+    $('.chatSubmit').val('');
   });
 
   $('.clearButton').on('click', function() {
