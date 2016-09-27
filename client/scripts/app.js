@@ -2,6 +2,8 @@
   var app = {};
 
   app.counter = 2;
+  app.objectId;
+  app.friends = [];
 
   app.init = function() {
     setInterval(function() {
@@ -27,8 +29,6 @@
     });
   };
 
-  var objectId;
-
   app.server = 'https://api.parse.com/1/classes/messages?order=updatedAt';
   app.fetch = function() {
     // console.log('triggered a fetch');
@@ -40,9 +40,8 @@
       contentType: 'application/json',
       success: function (data) {
         var messages = data.results;
-        if (messages[0].objectId !== objectId) {
-          objectId = messages[0].objectId;
-          debugger;
+        if (messages[0].objectId !== app.objectId) {
+          app.objectId = messages[0].objectId;
           displayAll(messages);
         }
       },
@@ -60,7 +59,6 @@
 
   var displayAll = function(messages) {
     for (var i = messages.length - 1; i >= 0; i--) {
-      console.log(messages[i]); 
       app.renderMessage(messages[i]);
     }
   };
@@ -73,11 +71,6 @@
     app.counter++;
   };
 
-  $('#roomSelect').on('change', function() {
-    if (this.value === '1') {
-      app.addRoom();
-    }
-  });
 
   app.addRoom = function() {
     $('.newRoom').show();
@@ -85,9 +78,39 @@
 
   app.renderMessage = function(msgObj) {
     var $newMessage = $('<li></li>');
-    $newMessage.text(msgObj.username + ': ' + msgObj.text);
+    var $username = $('<a></a>');
+    $username.attr({
+      'href': '#',
+      'class': 'username',
+      'user': msgObj.username
+    });
+    if (app.friends.includes(msgObj.username)) {
+      $username.text('💝 ' + msgObj.username);
+    } else {
+      $username.text(msgObj.username);
+    }
+    $newMessage.text(': ' + msgObj.text);
+    $newMessage.prepend($username);
     $('#chats').prepend($newMessage);
   };
+
+  $('#roomSelect').on('change', function() {
+    if (this.value === '1') {
+      app.addRoom();
+    }
+  });
+
+  app.handleUsernameClick = function() {
+    $('#chats').on('click', '.username', function() {
+      var friend = $(this).attr('user');
+      if (!app.friends.includes(friend)) {
+        app.friends.push(friend);
+      }
+      app.fetch();
+    });
+  };
+
+  app.handleUsernameClick();
 
   $('.newMessageButton').on('click', function() {
     var messageObj = {};
@@ -99,6 +122,7 @@
     $('.chatSubmit').val('');
   });
 
+
   $('.clearButton').on('click', function() {
     app.clearMessages();
   });
@@ -108,6 +132,8 @@
     app.renderRoom(newRoom);
     $('.newRoom').hide();
   });
+
+
 
   $(document).ready(function() {
     app.init();
