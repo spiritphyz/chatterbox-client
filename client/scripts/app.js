@@ -84,11 +84,7 @@
       'class': 'username',
       'user': msgObj.username
     });
-    if (app.friends.includes(msgObj.username)) {
-      $username.text('💝 ' + msgObj.username);
-    } else {
-      $username.text(msgObj.username);
-    }
+    $username.text(msgObj.username);
     $newMessage.text(': ' + msgObj.text);
     $newMessage.prepend($username);
     $('#chats').prepend($newMessage);
@@ -100,17 +96,21 @@
     }
   });
 
-  app.handleUsernameClick = function() {
-    $('#chats').on('click', '.username', function() {
-      var friend = $(this).attr('user');
-      if (!app.friends.includes(friend)) {
-        app.friends.push(friend);
-      }
-      app.fetch();
-    });
-  };
 
-  app.handleUsernameClick();
+  $('#chats').on('click', '.username', function() {
+    var friend = $(this).attr('user');
+    var $newFriend = $('a[user=' + '"' + friend + '"' + ']');
+    $newFriend.each(function() {
+      if (!app.friends.includes(friend)) {
+        $(this).text('💝 ' + $(this).text());
+        console.log('yay!');
+      }
+    });
+    app.friends.push(friend);
+  });
+
+
+
 
   $('.newMessageButton').on('click', function() {
     var messageObj = {};
