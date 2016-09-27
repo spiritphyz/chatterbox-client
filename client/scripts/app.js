@@ -34,9 +34,11 @@
       url: 'https://api.parse.com/1/classes/messages?order=updatedAt',
       type: 'get',
       // data: JSON.stringify(message),
+      data: {order: '-createdAt'},
       contentType: 'application/json',
       success: function (data) {
         var messages = data.results;
+        console.log('success condition for fetch: ', messages);
         displayAll(messages);
       },
       error: function () {
