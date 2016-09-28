@@ -3,11 +3,23 @@
   <head>
     <meta charset="utf-8">
     <title>chatterbox</title>
+
+    <!-- mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- stylesheets -->
     <link rel="stylesheet" href="styles/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">    
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Baloo+Da" rel="stylesheet">
 
     <!-- dependencies -->
+
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> 
+   
     <script>
       // YOU DO NOT NEED TO EDIT THIS CODE
       if (!/(&|\?)username=/.test(window.location.search)) {
@@ -23,17 +35,30 @@
   <body>
     <div id="main">
       <!-- Your HTML goes here! -->
-      <h1>chatterbox</h1>
-        <input text="text" class = "chatSubmit" />
-        <select id="roomSelect">
-        </select>
-        <button class="newMessageButton"> Send </button>
-        <button class="clearButton"> Clear </button>
+      <div class="row">
+        <div class="col-md-6">
+          <h1>chatterbox</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <input text="text" class = "chatSubmit form-control" />
+        </div>
+        <div class="col-md-2">
+          <select id="roomSelect" class = "form-control"></select>
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="newMessageButton btn btn-info"> Send </button>
+          <button type="button" class="btn btn-danger clearButton"> Clear </button>
+        </div>
+      </div>
         <div class="newRoom" style = "display: none;">
           <input text="text" class = "newRoomName" />
           <button class="addRoom"> Add a New Room! </button>
         </div>
-        <div id = "chats"></div>
+      </div>
+      <div id = "chats"></div>
+    </div>
     </div>
     
     <!-- your scripts -->
