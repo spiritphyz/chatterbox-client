@@ -4,7 +4,7 @@
   app.counter = 2;
   app.objectId;
   app.friends = [];
-  app.messages = [];
+  app.messages;
   app.currentRoom = 'lobby';
   app.roomNames = {};
 
@@ -34,7 +34,7 @@
   };
 
   app.server = 'https://api.parse.com/1/classes/messages?order=updatedAt';
-  app.fetch = function(forceUpdate) {
+  app.fetch = function() {
     // console.log('triggered a fetch');
     $.ajax({
       url: 'https://api.parse.com/1/classes/messages?order=updatedAt',
@@ -47,15 +47,12 @@
         if (!app.currentRoom) {
           currentRoom = 'lobby';
         }
-        if (forceUpdate === undefined) {
-          if (messages[0].objectId !== app.objectId) {
-            app.objectId = messages[0].objectId;
-            app.renderRooms(messages);
-            displayAll(messages);
-          }
-        } else {
+      
+        if (messages[0].objectId !== app.objectId) {
           app.objectId = messages[0].objectId;
-          displayAll(messages);          
+          app.renderRooms(messages);
+          displayAll(messages);
+          app.messages = messages;
         }
       },
       error: function () {
@@ -74,7 +71,6 @@
     app.clearMessages();
     for (var i = messages.length - 1; i >= 0; i--) {
       if (messages[i].roomname === app.currentRoom) {
-        console.log(messages[i].roomname);
         app.renderMessage(messages[i]);
       }
     }
@@ -108,6 +104,8 @@
         text: app.roomNames[key]
       }));
     });
+
+    $('#roomSelect').val(app.currentRoom);
   };
 
 
@@ -116,7 +114,7 @@
   };
 
   app.renderMessage = function(msgObj) {
-    var $newMessage = $('<li></li>');
+    var $newMessage = $('<div class = "chat" />');
     var $username = $('<a></a>');
     $username.attr({
       'href': '#',
@@ -138,7 +136,7 @@
       app.addRoom();
     } else {
       app.currentRoom = ($('#roomSelect option:selected').text());
-      app.fetch(true);
+      displayAll(app.messages);
     }
   });
 
@@ -146,10 +144,10 @@
   $('#chats').on('click', '.username', function() {
     var friend = $(this).attr('user');
     var $newFriend = $('a[user=' + '"' + friend + '"' + ']');
+
     $newFriend.each(function() {
       if (!app.friends.includes(friend)) {
         $(this).text('💝 ' + $(this).text());
-        console.log('yay!');
       }
     });
     app.friends.push(friend);

@@ -6,7 +6,6 @@ body {
 }
 
 #main, #chats {
-    width: 500px;
     margin: auto;
     text-align: left;
     background: white;
@@ -26,8 +25,11 @@ body {
     font-style:italic;
 }
 
-#main ul {
-    padding-left: 20px;
+
+
+li {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #main .error {
@@ -64,6 +66,8 @@ form input[type=text] {
     padding: 5px;
     margin-bottom: 5px;
     background-color: #eee;
+    word-wrap: break-word;
+
 }
 
 .chat .username {
