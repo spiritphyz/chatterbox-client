@@ -174,7 +174,7 @@
   $('.addRoom').on('click', function() {
     var newRoom = $('.newRoomName').val();
     app.roomNames[newRoom] = newRoom;
-    app.renderRoom(newRoom);
+    app.renderRooms(app.messages);
     $('.newRoom').hide();
   });
 
